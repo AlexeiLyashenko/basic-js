@@ -14,13 +14,53 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function transform(arr) {
-  if(!(arr instanceof Array)) {
+  if (!Array.isArray(arr)) {
     throw new Error('\'arr\' parameter must be an instance of the Array!')
   } else if (arr.length === 0) {
     return []
   }
-  
+
+  const array = [...arr],
+        newArr = [];
+
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === '--double-next' && array[i + 1] !== '') {
+      if (array[i + 1]) {
+        newArr.push(array[i + 1])
+      }
+      array.splice(i, 1, '')
+    } else if (array[i] === '--discard-next' && array[i] !== '') {
+      array.splice(i + 1, 1, '')
+      array.splice(i, 1, '')
+    } else if (array[i] === '--double-prev') {
+      if (array[i - 1] !== '' && array[i - 1]) {
+        newArr.push(array[i - 1])
+      }
+      array.splice(i, 1, '')
+    } else if (array[i] === '--discard-prev') {
+      if (array[i - 1] === '') {
+        array.splice(i, 1, '')
+      } else {
+        newArr.pop();
+      }
+    } else if (array[i] !== '') {
+      newArr.push(array[i]);
+    }
+  }
+  return newArr
 }
+
+// console.log(transform([1, 2, 3, '--discard-next', 1337, '--double-prev', 4, 5])) //,output: [1, 2, 3, 4, 5]
+// console.log(transform([1, 2, 3, '--double-next', 1337, '--double-prev', 4, 5])) //,output: [1, 2, 3, 1337, 1337, 1337, 4, 5]
+// console.log(transform([1, 2, 3, '--discard-next', 1337, '--discard-prev', 4, 5])) //,output: [1, 2, 3, 4, 5]
+// console.log(transform([1, 2, 3, '--double-next', 1337, '--discard-prev', 4, 5])) //,output: [1, 2, 3, 1337, 4, 5]
+
+// console.log(transform([1, 2, 3, '--double-next', 1337, '--discard-prev', 4, 5])) //,output: [1, 2, 3, 1337, 4, 5]
+
+// console.log(transform(['--discard-prev', 1, 2, 3])) // 1 2 3
+// console.log(transform(['--double-prev', 1, 2, 3]))
+// console.log(transform([1, 2, 3, '--double-next']))
+// console.log(transform([1, 2, 3, '--discard-next']))
 
 module.exports = {
   transform

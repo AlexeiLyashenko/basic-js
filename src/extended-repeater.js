@@ -18,8 +18,8 @@ const { NotImplementedError } = require('../extensions/index.js');
 function repeater(/* str, options */) {
   throw new NotImplementedError('Not implemented');
   // const {} = options;
-} 
- 
+}
+
 module.exports = {
   repeater
 };

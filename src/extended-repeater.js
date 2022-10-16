@@ -7,18 +7,19 @@ const { NotImplementedError } = require('../extensions/index.js');
  * @param {Object} options options object 
  * @return {String} repeating string
  * 
- *
- * @example
  * 
+ * @example
+ *
  * repeater('STRING', { repeatTimes: 3, separator: '**', 
  * addition: 'PLUS', additionRepeatTimes: 3, additionSeparator: '00' })
  * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
  *
  */
-function repeater(str, options) {
-  const {} = options;
-}
-
+function repeater(/* str, options */) {
+  throw new NotImplementedError('Not implemented');
+  // const {} = options;
+} 
+ 
 module.exports = {
   repeater
 };
